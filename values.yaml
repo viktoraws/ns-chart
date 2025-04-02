@@ -1,20 +1,37 @@
 tenant:
   namespaces:
-    names:
-      - "project-webapp-id1"
-      - "project-apiapp-id2"
+    - name: "project-webapp-id1"
+      networkPolicy:
+        allowFromNamespaces:
+          - "project-apiapp-id2"
+      resourceQuota:
+        requests.cpu: "2"
+        requests.memory: "4Gi"
+        limits.cpu: "4"
+        limits.memory: "8Gi"
+        pods: "10"
+      limitRange:
+        default:
+          cpu: "500m"
+          memory: "512Mi"
+        defaultRequest:
+          cpu: "100m"
+          memory: "10Mi"
 
-  resourceQuota:
-    requests.cpu: "2"
-    requests.memory: "4Gi"
-    limits.cpu: "4"
-    limits.memory: "8Gi"
-    pods: "10"
-
-  limitRange:
-    default:
-      cpu: "500m"
-      memory: "512Mi"
-    defaultRequest:
-      cpu: "100m"
-      memory: "10Mi"
+    - name: "project-apiapp-id2"
+      networkPolicy:
+        allowFromNamespaces:
+          - "project-webapp-id1"
+      resourceQuota:
+        requests.cpu: "4"
+        requests.memory: "8Gi"
+        limits.cpu: "8"
+        limits.memory: "16Gi"
+        pods: "15"
+      limitRange:
+        default:
+          cpu: "1"
+          memory: "1Gi"
+        defaultRequest:
+          cpu: "200m"
+          memory: "20Mi"

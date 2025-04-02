@@ -1,15 +1,15 @@
-{{- range .Values.tenant.namespaces.names }}
+{{- range .Values.tenant.namespaces }}
 apiVersion: v1
 kind: ResourceQuota
 metadata:
   name: resource-quota
-  namespace: {{ . }}
+  namespace: {{ .name }}
 spec:
   hard:
-    requests.cpu: "{{ $.Values.tenant.resourceQuota.requests.cpu }}"
-    requests.memory: "{{ $.Values.tenant.resourceQuota.requests.memory }}"
-    limits.cpu: "{{ $.Values.tenant.resourceQuota.limits.cpu }}"
-    limits.memory: "{{ $.Values.tenant.resourceQuota.limits.memory }}"
-    pods: "{{ $.Values.tenant.resourceQuota.pods }}"
+    requests.cpu: "{{ .resourceQuota.requests.cpu }}"
+    requests.memory: "{{ .resourceQuota.requests.memory }}"
+    limits.cpu: "{{ .resourceQuota.limits.cpu }}"
+    limits.memory: "{{ .resourceQuota.limits.memory }}"
+    pods: "{{ .resourceQuota.pods }}"
 ---
 {{- end }}

@@ -1,8 +1,9 @@
+{{- range .Values.tenant.namespaces }}
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: allow-tenant-traffic
-  namespace: {{ .Values.tenant.namespaces.names | first }}
+  name: allow-custom-traffic
+  namespace: {{ .name }}
 spec:
   podSelector: {}
   policyTypes:
@@ -10,35 +11,13 @@ spec:
     - Egress
   ingress:
     - from:
+        {{- range .networkPolicy.allowFromNamespaces }}
         - namespaceSelector:
             matchLabels:
-              tenant: {{ .Values.tenant.namespaces.names | first }}
+              tenant: "{{ . }}"
+        {{- end }}
   egress:
     - to:
-        - namespaceSelector:
-            matchLabels:
-              tenant: {{ .Values.tenant.namespaces.names | first }}
----
-{{- range .Values.tenant.namespaces.names | rest }}
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: allow-tenant-traffic
-  namespace: {{ . }}
-spec:
-  podSelector: {}
-  policyTypes:
-    - Ingress
-    - Egress
-  ingress:
-    - from:
-        - namespaceSelector:
-            matchLabels:
-              tenant: {{ . }}
-  egress:
-    - to:
-        - namespaceSelector:
-            matchLabels:
-              tenant: {{ . }}
+        - namespaceSelector: {}
 ---
 {{- end }}
