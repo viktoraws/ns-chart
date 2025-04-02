@@ -1,0 +1,5 @@
+apiVersion: v2
+name: tenant-namespace-manager
+description: A Helm chart to create Kubernetes namespaces with NetworkPolicies, ResourceQuotas, and LimitRanges
+type: application
+version: 0.1.0

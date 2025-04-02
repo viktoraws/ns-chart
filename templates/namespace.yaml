@@ -1,0 +1,9 @@
+{{- range .Values.tenant.namespaces.names }}
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ . }}
+  labels:
+    tenant: {{ . }}
+---
+{{- end }}

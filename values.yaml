@@ -1,0 +1,20 @@
+tenant:
+  namespaces:
+    names:
+      - "project-webapp-id1"
+      - "project-apiapp-id2"
+
+  resourceQuota:
+    requests.cpu: "2"
+    requests.memory: "4Gi"
+    limits.cpu: "4"
+    limits.memory: "8Gi"
+    pods: "10"
+
+  limitRange:
+    default:
+      cpu: "500m"
+      memory: "512Mi"
+    defaultRequest:
+      cpu: "100m"
+      memory: "10Mi"

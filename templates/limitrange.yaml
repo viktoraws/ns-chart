@@ -1,0 +1,17 @@
+{{- range .Values.tenant.namespaces.names }}
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: limit-range
+  namespace: {{ . }}
+spec:
+  limits:
+    - default:
+        cpu: "{{ $.Values.tenant.limitRange.default.cpu }}"
+        memory: "{{ $.Values.tenant.limitRange.default.memory }}"
+      defaultRequest:
+        cpu: "{{ $.Values.tenant.limitRange.defaultRequest.cpu }}"
+        memory: "{{ $.Values.tenant.limitRange.defaultRequest.memory }}"
+      type: Container
+---
+{{- end }}
