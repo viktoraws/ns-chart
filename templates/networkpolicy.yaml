@@ -1,8 +1,8 @@
-{{- range .Values.tenant.namespaces }}
+{{- range .Values.tenant.namespaces.names }}
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: allow-custom-traffic
+  name: allow-tenant-traffic
   namespace: {{ .name }}
 spec:
   podSelector: {}
@@ -10,14 +10,8 @@ spec:
     - Ingress
     - Egress
   ingress:
-    - from:
-        {{- range .networkPolicy.allowFromNamespaces }}
-        - namespaceSelector:
-            matchLabels:
-              tenant: "{{ . }}"
-        {{- end }}
+    {{- toYaml .networkPolicy.ingress | nindent 4 }}
   egress:
-    - to:
-        - namespaceSelector: {}
+    {{- toYaml .networkPolicy.egress | nindent 4 }}
 ---
 {{- end }}

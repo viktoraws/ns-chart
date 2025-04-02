@@ -1,17 +1,11 @@
-{{- range .Values.tenant.namespaces }}
+{{- range .Values.tenant.namespaces.names }}
 apiVersion: v1
 kind: LimitRange
 metadata:
-  name: limit-range
+  name: limits
   namespace: {{ .name }}
 spec:
   limits:
-    - default:
-        cpu: "{{ .limitRange.default.cpu }}"
-        memory: "{{ .limitRange.default.memory }}"
-      defaultRequest:
-        cpu: "{{ .limitRange.defaultRequest.cpu }}"
-        memory: "{{ .limitRange.defaultRequest.memory }}"
-      type: Container
+    {{- toYaml .limitRange.limits | nindent 4 }}
 ---
 {{- end }}
